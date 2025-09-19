@@ -1,0 +1,19 @@
+<template>
+    <div class="container">
+        <h1 class="heading">Honda Dealership</h1>
+        <div class="cards">
+            <template for:each={cars} for:item="car">
+                <div class="card" key={car.id} data-id={car.id} onclick={navigateToCar}>
+                    <img src={car.image} alt={car.name} />
+                    <h2>{car.name}</h2>
+                    <p>{car.description}</p>
+                    <div class="features">
+                        <span>Base Price: ₹{car.basePrice}</span>
+                        <span>Warranty: {car.warranty} Years</span>
+                        <span>Services: {car.services}</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>
