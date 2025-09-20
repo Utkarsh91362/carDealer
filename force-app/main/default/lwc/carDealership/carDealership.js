@@ -32,7 +32,7 @@ export default class CarDealership extends NavigationMixin(LightningElement) {
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: `/car-detail?c__carId=${carId}`
+                url: `/car-detail?c__carId=${carId}` // pass carId as c__carId
             }
         });
     }

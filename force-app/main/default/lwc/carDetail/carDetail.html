@@ -1,50 +1,44 @@
 <template>
-    <div class="car-detail-wrapper">
-        <header class="header">
-            <div class="logo">HONDA</div>
-        </header>
+    <template if:true={car}>
+        <div class="car-detail-wrapper">
+            <!-- Header -->
+            <header class="header">
+                <div class="logo">HONDA</div>
+            </header>
 
-        <div class="main-container">
-            <div class="left-column">
-                <div class="car-image">
-                    <img src={carImageUrl} alt={car.Name} />
+            <!-- Main Container -->
+            <div class="main-container">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <div class="car-image">
+                        <img src={carImageUrl} alt={car.Name} />
+                    </div>
+
+                    <div class="specs">
+                        <div class="spec">
+                            <div class="number">{car.Fuel_Consumption__c}</div>
+                            <div class="label">Fuel Consumption (km/L)</div>
+                        </div>
+                        <div class="spec">
+                            <div class="number">{car.Seating_Capacity__c}</div>
+                            <div class="label">Seating Capacity</div>
+                        </div>
+                        <div class="spec">
+                            <div class="number">{car.Alloy_Wheels__c}"</div>
+                            <div class="label">Alloy Wheels</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="specs">
-                    <div class="spec"><div class="number">{car.Fuel_Consumption__c}</div><div class="label">Fuel Consumption (km/L)</div></div>
-                    <div class="spec"><div class="number">{car.Seating_Capacity__c}</div><div class="label">Seating Capacity</div></div>
-                    <div class="spec"><div class="number">{car.Alloy_Wheels__c}"</div><div class="label">Alloy Wheels</div></div>
+
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Placeholder for future configuration panel -->
                 </div>
-            </div>
-
-            <div class="right-column">
-                <section class="variants-section">
-                    <h3>{car.Name} Variants</h3>
-                    <template for:each={variants} for:item="variant">
-                        <!-- <button key={variant.Id} data-id={variant.Id} onclick={selectVariant}
-                            class={variant.Id === selectedVariantId ? 'variant-btn selected' : 'variant-btn'}>
-                            <span>{variant.Name}</span>
-                            <span>From ₹{variant.Price__c}</span>
-                        </button> -->
-                    </template>
-                </section>
-
-                <section class="colors-section">
-                    <h3>Available Colors</h3>
-                    <template for:each={inventory} for:item="inv">
-                        <!-- <button key={inv.Id} data-color={inv.Color__c} onclick={selectColor}
-                            class={selectedColor === inv.Color__c ? 'color-btn selected' : 'color-btn'}>
-                            {inv.Color__c}
-                        </button> -->
-                    </template>
-                </section>
             </div>
         </div>
+    </template>
 
-        <footer class="footer">
-            <div class="price-info">
-                {displayedPrice} <span class="stock-info">* only {availableQuantity} left</span>
-            </div>
-            <button class="buy-btn" onclick={handleBuy}>Save and Contact Us</button>
-        </footer>
-    </div>
+    <template if:false={car}>
+        <div class="loading">Loading car details...</div>
+    </template>
 </template>
