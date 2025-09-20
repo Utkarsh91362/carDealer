@@ -1,12 +1,8 @@
 <template>
-    <template if:true={car}>
-        <div class="car-detail-wrapper">
-            <!-- Header -->
-            <header class="header">
-                <div class="logo">HONDA</div>
-            </header>
+    <div class="car-detail-wrapper">
+        <template if:true={car}>
+            <header class="header">HONDA</header>
 
-            <!-- Main Container -->
             <div class="main-container">
                 <!-- Left Column -->
                 <div class="left-column">
@@ -34,21 +30,28 @@
                 <div class="right-column">
                     <h3 class="section-title">{car.Name}</h3>
 
+                    <!-- VARIANTS -->
                     <template for:each={variants} for:item="variant">
-                        <button key={variant.Id} class={variant.cssClass} data-id={variant.Id}
-                            onclick={handleVariantClick}>
+                        <button key={variant.Id} class={variant.cssClass} data-id={variant.Id} onclick={handleVariantClick}>
                             <div class="button-left">{variant.name}</div>
                             <div class="button-right">{variant.price}</div>
                         </button>
                     </template>
 
-
+                    <!-- COLORS -->
+                    <h3 class="section-title">Car Colors</h3>
+                    <template for:each={colors} for:item="color">
+                        <button key={color.id} class={color.cssClass} data-id={color.id} onclick={handleColorClick}>
+                            <div class="color-swatch" style={color.style}></div>
+                            <div class="color-name">{color.name}</div>
+                        </button>
+                    </template>
                 </div>
             </div>
-        </div>
-    </template>
+        </template>
 
-    <template if:false={car}>
-        <div class="loading">Loading car details...</div>
-    </template>
+        <template if:false={car}>
+            <div class="loading">Loading car details...</div>
+        </template>
+    </div>
 </template>
