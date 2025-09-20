@@ -23,11 +23,14 @@
 
 .right-column {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
 }
 
 .car-image img {
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     border-radius: 12px;
     margin-bottom: 20px;
 }
@@ -35,14 +38,68 @@
 .specs {
     display: flex;
     gap: 40px;
+    justify-content: center;
+}
+
+.spec {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .spec .number {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
 }
 
 .spec .label {
-    font-size: 14px;
+    font-size: 18px;
     color: #555;
+}
+
+/* Variant Buttons */
+.section-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+
+
+
+button.variant-button .variant-name {
+    flex: 1;
+}
+
+button.variant-button .variant-price {
+    margin-left: 20px;
+}
+button.variant-button {
+    display: flex;
+    justify-content: space-between; /* left and right sections */
+    align-items: center;
+    padding: 15px 20px;
+    font-size: 18px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: normal; /* remove bold from entire button */
+    width: 350px;
+}
+
+button.variant-button.selected {
+    background-color: #FFD700;
+    font-weight: normal; /* price stays normal */
+}
+
+.button-left {
+    text-align: left;
+    flex: 1;
+     font-weight: bold;
+}
+
+.button-right {
+    text-align: right;
+    flex: 1;
 }
