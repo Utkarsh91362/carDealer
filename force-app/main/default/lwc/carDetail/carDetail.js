@@ -27,25 +27,31 @@ export default class CarDetail extends LightningElement {
 
     // Fetch car details
     @wire(getCarById, { carId: '$carId' })
-    wiredCar({ data }) {
-        if (data) this.car = data;
+    wiredCar({ data, error }) {
+        if (data) {
+            this.car = data;
+        } else if (error) {
+            console.error('Error fetching car:', error);
+        }
     }
 
     // Fetch inventory and prepare colors
     @wire(getInventoryByCar, { carId: '$carId' })
-    wiredInventory({ data }) {
+    wiredInventory({ data, error }) {
         if (!data) return;
 
         this.inventory = data;
-        const defaultColor = 'White';
 
-        this.colors = ['Black', 'Brown', 'White'].map((colorName) => {
-            const inv = data.find(i => i.Color__c.toLowerCase() === colorName.toLowerCase());
+        // Default color logic
+        const defaultColor = 'White';
+        const colorNames = ['Black', 'Brown', 'White'];
+        this.colors = colorNames.map((colorName) => {
+            const inv = data.find(i => i.Color__c?.toLowerCase() === colorName.toLowerCase());
             const colorCode = colorName === 'Black' ? '#000' : colorName === 'Brown' ? '#8B4513' : '#FFF';
             return {
                 id: colorName.toLowerCase(),
                 name: colorName,
-                url: inv ? inv.Color_URL__c : '',
+                url: inv?.Color_URL__c || '',
                 cssClass: colorName === defaultColor ? 'color-option selected' : 'color-option',
                 style: `background-color: ${colorCode}; width: 20px; height: 20px; border-radius: 50%; display: inline-block;`
             };
@@ -58,7 +64,7 @@ export default class CarDetail extends LightningElement {
 
     // Fetch variants and prepare buttons
     @wire(getVariantsByCar, { carId: '$carId' })
-    wiredVariants({ data }) {
+    wiredVariants({ data, error }) {
         if (!data) return;
 
         const firstId = data[0]?.Id;
@@ -78,7 +84,6 @@ export default class CarDetail extends LightningElement {
         }
     }
 
-    // Variant button click
     handleVariantClick(event) {
         const variantId = event.currentTarget.dataset.id;
         this.selectedVariantId = variantId;
@@ -98,7 +103,6 @@ export default class CarDetail extends LightningElement {
         this.updateCarImage();
     }
 
-    // Color button click
     handleColorClick(event) {
         const colorId = event.currentTarget.dataset.id;
         this.selectedColorId = colorId;
@@ -108,14 +112,12 @@ export default class CarDetail extends LightningElement {
             cssClass: c.id === colorId ? 'color-option selected' : 'color-option'
         }));
 
-        // Update quantity in footer for this color-variant combination
         const inventoryItem = this.inventory.find(i => i.Variant__c === this.selectedVariantId && i.Color__c.toLowerCase() === colorId);
         this.selectedVariantQuantity = inventoryItem ? inventoryItem.Quantity__c : 0;
 
         this.updateCarImage();
     }
 
-    // Update car image based on selected color
     updateCarImage() {
         const color = this.colors.find(c => c.id === this.selectedColorId);
         if (!color || !color.url) return;
@@ -123,7 +125,6 @@ export default class CarDetail extends LightningElement {
         const imgEl = this.template.querySelector('.car-image img');
         if (imgEl) {
             imgEl.classList.add('fade-out');
-
             setTimeout(() => {
                 this.carImageUrl = color.url;
                 imgEl.classList.remove('fade-out');

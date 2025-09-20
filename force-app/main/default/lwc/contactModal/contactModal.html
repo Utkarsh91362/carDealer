@@ -1,0 +1,27 @@
+<template>
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Header -->
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Seal the Deal</h2>
+                </header>
+
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input label="Full Name" value={name} onchange={handleChange} data-id="name"></lightning-input>
+                    <lightning-input type="email" label="Email" value={email} onchange={handleChange} data-id="email"></lightning-input>
+                    <lightning-input type="tel" label="Phone" value={phone} onchange={handleChange} data-id="phone"></lightning-input>
+                    <lightning-textarea label="Message (Optional)" value={message} onchange={handleChange} data-id="message"></lightning-textarea>
+                </div>
+
+                <!-- Footer -->
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+                    <lightning-button variant="brand" label="Seal the Deal" onclick={submitForm}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

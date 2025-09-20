@@ -1,4 +1,4 @@
-public with sharing class CarDetailController {
+public without sharing class CarDetailController {
 
     // Fetch a single car by Id
     @AuraEnabled(cacheable=true)
