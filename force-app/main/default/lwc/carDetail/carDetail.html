@@ -48,6 +48,17 @@
                     </template>
                 </div>
             </div>
+
+            <!-- Footer Section -->
+            <footer class="footer-bar">
+                <div class="price-info">
+                    <span class="price">
+                        ₹{selectedVariantPrice}<sup>*</sup>
+                    </span>
+                    <span class="availability">only {selectedVariantQuantity} left</span>
+                </div>
+                <button class="buy-button">Buy</button>
+            </footer>
         </template>
 
         <template if:false={car}>

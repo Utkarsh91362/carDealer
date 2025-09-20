@@ -11,6 +11,8 @@ export default class CarDetail extends LightningElement {
     @track colors = [];
     @track selectedVariantId = null;
     @track selectedColorId = null;
+    @track selectedVariantPrice = '';
+    @track selectedVariantQuantity = 0;
     carId;
     carImageUrl = '';
 
@@ -67,7 +69,13 @@ export default class CarDetail extends LightningElement {
             cssClass: i === 0 ? 'variant-button selected' : 'variant-button'
         }));
 
-        if (firstId) this.selectedVariantId = firstId;
+        if (firstId) {
+            this.selectedVariantId = firstId;
+            const selected = this.variants.find(v => v.Id === firstId);
+            this.selectedVariantPrice = selected ? selected.Price__c : '';
+            const inventoryItem = this.inventory.find(i => i.Variant__c === firstId && i.Color__c.toLowerCase() === this.selectedColorId);
+            this.selectedVariantQuantity = inventoryItem ? inventoryItem.Quantity__c : 0;
+        }
     }
 
     // Variant button click
@@ -79,6 +87,13 @@ export default class CarDetail extends LightningElement {
             ...v,
             cssClass: v.Id === variantId ? 'variant-button selected' : 'variant-button'
         }));
+
+        const selected = this.variants.find(v => v.Id === variantId);
+        if (selected) {
+            this.selectedVariantPrice = selected.Price__c;
+            const inventoryItem = this.inventory.find(i => i.Variant__c === variantId && i.Color__c.toLowerCase() === this.selectedColorId);
+            this.selectedVariantQuantity = inventoryItem ? inventoryItem.Quantity__c : 0;
+        }
 
         this.updateCarImage();
     }
@@ -93,30 +108,28 @@ export default class CarDetail extends LightningElement {
             cssClass: c.id === colorId ? 'color-option selected' : 'color-option'
         }));
 
+        // Update quantity in footer for this color-variant combination
+        const inventoryItem = this.inventory.find(i => i.Variant__c === this.selectedVariantId && i.Color__c.toLowerCase() === colorId);
+        this.selectedVariantQuantity = inventoryItem ? inventoryItem.Quantity__c : 0;
+
         this.updateCarImage();
     }
 
     // Update car image based on selected color
     updateCarImage() {
-    const color = this.colors.find(c => c.id === this.selectedColorId);
-    if (!color || !color.url) return;
+        const color = this.colors.find(c => c.id === this.selectedColorId);
+        if (!color || !color.url) return;
 
-    const imgEl = this.template.querySelector('.car-image img');
-    if (imgEl) {
-        // Fade out
-        imgEl.classList.add('fade-out');
+        const imgEl = this.template.querySelector('.car-image img');
+        if (imgEl) {
+            imgEl.classList.add('fade-out');
 
-        setTimeout(() => {
-            // Change image src after fade-out
+            setTimeout(() => {
+                this.carImageUrl = color.url;
+                imgEl.classList.remove('fade-out');
+            }, 250);
+        } else {
             this.carImageUrl = color.url;
-            
-            // Fade in
-            imgEl.classList.remove('fade-out');
-        }, 250); // half of transition duration
-    } else {
-        // fallback if element not found
-        this.carImageUrl = color.url;
+        }
     }
-}
-
 }

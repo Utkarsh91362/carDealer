@@ -33,6 +33,12 @@
     max-width: 800px;
     border-radius: 12px;
     margin-bottom: 20px;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
+}
+
+.car-image img.fade-out {
+    opacity: 0;
 }
 
 .specs {
@@ -113,15 +119,51 @@ button.color-option.selected {
 .color-name {
     font-size: 16px;
 }
-.car-image img {
+
+/* Footer */
+.footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    max-width: 800px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    transition: opacity 0.5s ease-in-out; /* smooth fade */
-    opacity: 1;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+    z-index: 1000;
 }
 
-.car-image img.fade-out {
-    opacity: 0;
+.price-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.availability {
+    font-size: 14px;
+    color: red;
+    margin-top: 2px;
+    margin-left: 45px;
+}
+
+.buy-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.buy-button:hover {
+    background-color: darkred;
 }
